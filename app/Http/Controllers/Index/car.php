@@ -19,7 +19,6 @@ class car extends Controller
         //     $goods[]=Goodsdo::where('goods_id','=',$vv)->get();  
         //  }
         $goods = Details::leftjoin('goods','details.goods_id','=','goods.goods_id')->get();
-      //   dd($goods);
         return view('index/car',['goods'=>$goods]);
     }
 }

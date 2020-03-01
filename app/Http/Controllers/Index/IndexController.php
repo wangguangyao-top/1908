@@ -43,13 +43,23 @@ public function login2(Request $request){
         ['admin_tel','=',$data['admin_tel']]
     ];
     $login=Login::where($where)->first();
-    $pwd=decrypt($login['admin_pas']);
-    if($pwd==$data['admin_pas']){
-        echo '登录成功';
+    $a=$login['admin_id'];
+    if($login){
+        $pwd=decrypt($login['admin_pas']);
+        if($pwd==$data['admin_pas']){
+            session(['admin_id'=>$login->admin_id,'tel'=>$login->admin_tel,'user_time'=>time()]);
+            request()->session()->save();
+            echo '<script>alert("登录成功");window.location.href="http://www.phpstudy.com/";</script>';
+            die;
+         }else{
+             echo '用户名或密码错误';
+             die;
+         }
+    }else{
+        echo '用户名或密码错误';
         die;
-     }else{
-         echo '用户名或密码错误';
-     }
+    }
+   
 }
 /**
  * 注册 15030020427
@@ -78,7 +88,7 @@ public function sess(){
     return ['sess'=>200,'msg'=>'OK','tel2'=>$tel2,'code2'=>$code2,'user_time'=>$user_time];
 }
 /**
- * 短信添加
+ * 短信注册
  */
 public function add(){
     $data=request()->except('_token');
