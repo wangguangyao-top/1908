@@ -14,6 +14,7 @@ class goodsController extends Controller
     public function index()
     {
         echo 345;
+        echo 666;
         $where=[
             ['goods_del','=',1]
         ];
